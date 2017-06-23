@@ -3,6 +3,13 @@
  */
 package backend;
 
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Graphics2D;
+import java.awt.Point;
+import java.util.ArrayList;
+import java.util.List;
+
 /*
  * Agent.java
  * LeaderElection
@@ -64,6 +71,15 @@ public class Agent {
      * Is the election complete? False by default (starting)
      */
     private boolean electionComplete;
+    
+// --------------------- Simulation Parameters ------------    
+	private Color color;
+	private Point location;
+	private Point infoLocation;
+	private Dimension size;
+	private boolean infected = false;
+	private boolean busy = false;
+// -----------------------------------------------------------
 
 //	----------		CONSTRUCTOR		----------
     /**
@@ -75,13 +91,16 @@ public class Agent {
      */
     public Agent(int AID) {
         this.AID = AID;
-        leaderAID = AID;
+        this.leaderAID = AID;
 
         conversions = 0;
         metFollowers = 0;
 
         isLeader = false;
         electionComplete = false;
+        
+	    this.color = Color.GREEN;
+	    size = new Dimension(25, 25);
     }
 
 
@@ -149,7 +168,9 @@ public class Agent {
 
 
     public boolean isLeader() {
-        return isLeader;
+    	if (isElectionComplete())
+    		this.isLeader = leaderAID == AID;
+    	return isLeader;
     }
 
 
@@ -189,5 +210,69 @@ public class Agent {
     public void setElectionComplete(boolean electionComplete) {
         this.electionComplete = electionComplete;
     }
+    
+// -------------------------------------------------------------------
 
+
+	public void disengage() {
+	    this.busy = false;
+	}
+
+	public boolean isEngaged() {
+	    return this.busy;
+	}
+
+
+
+	public void updateLeader(int NewLeader) {
+	    this.leaderAID = Math.max(NewLeader, this.leaderAID);
+	}
+
+
+// -------------------------------------------------------------------
+
+// ------------------ Simulation Related Methods ---------------------
+	
+	public Dimension getSize() {
+	    return size;
+	}
+
+	public void setColor(Color color) {
+	    this.color = color;
+	}
+
+	public void setLocation(Point location) {
+	    this.location = location;
+	}
+	
+	public void setInfoLocation(Point location) {
+	    this.infoLocation = location;
+	}
+	
+	public Color getColor() {
+	    return color;
+	}
+
+	public Point getLocation() {
+	    return location;
+	}
+	
+	public Point getInfoLocation() {
+	    return infoLocation;
+	}
+	
+	protected void paint(Graphics2D g2d) {
+
+	    Point p = getLocation();
+	    Point q = getInfoLocation();
+	    if (p != null) {
+		g2d.setColor(getColor());
+		Dimension size = getSize();
+		g2d.fillOval(p.x-size.width/2, p.y-size.height/2, size.width, size.height);
+		g2d.drawString(this.AID + "" ,q.x,q.y);
+	    }
+
+	}
+	
+	
 }
