@@ -2,6 +2,7 @@ package backend;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 public class UniqueRandomNumbers {
 	
@@ -11,7 +12,9 @@ public class UniqueRandomNumbers {
 			list.add(new Integer(i));
 		}
 	    Collections.shuffle(list);
-	    return (ArrayList<Integer>) list.subList(0,s-1);
+	    ArrayList<Integer> result = (ArrayList<Integer>) list.subList(0,s-1);
+	    return result;
+	    
     }
     
     public static int maxList (ArrayList<Integer> list){

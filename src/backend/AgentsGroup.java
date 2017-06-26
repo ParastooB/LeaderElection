@@ -30,7 +30,7 @@ public class AgentsGroup extends JPanel {
 	private int repeated = 0;
 	private boolean electionCompleted = false;
 	
-	int[][][] interactions = new int[AGENT_COUNT][AGENT_COUNT*10][2];
+	Interactions interactions = new Interactions(AGENT_COUNT);
 
 	public AgentsGroup() {
 	    agentsList = new ArrayList<Agent>(AGENT_COUNT);
@@ -71,8 +71,7 @@ public class AgentsGroup extends JPanel {
 			agentNew.setInfoLocation(new Point(xi,yi));
 			agentsList.add(agentNew);
 			// first column of both failed and succeeded interactions pages is the ID of agent
-			this.interactions[index][0][0] = agentNew.getAID();
-			this.interactions[index][0][1] = agentNew.getAID();
+			interactions.initi(index, agentNew.getAID());
 	    }
 	}
 
