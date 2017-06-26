@@ -231,7 +231,7 @@ public class Agent {
 
 // -------------------------------------------------------------------
 
-// ------------------ Simulation Related Methods ---------------------
+// ------------------ Simulation Methods -----------------------------
 	
 	public Dimension getSize() {
 	    return size;

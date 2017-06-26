@@ -11,7 +11,9 @@ import java.awt.Stroke;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AgentsGroup {
+import javax.swing.JPanel;
+
+public class AgentsGroup extends JPanel {
 
 // 	--------------------------	Simulation Parameters
 	public static final int AGENT_COUNT = 100;
@@ -19,34 +21,37 @@ public class AgentsGroup {
 //	--------------------------------------------------------
 	
 	private List<Agent> agentsList;
-	private int infectedCount = 0;
-	public long startTime = System.currentTimeMillis();
+	
+	// Robots who are aware of the true leader value
+	private int believers= 0;
+	
 	private int rounds = 0;
 	private int failed = 0;
 	private int repeated = 0;
 	private boolean electionCompleted = false;
+	
+	int[][][] interactions = new int[AGENT_COUNT][AGENT_COUNT*10][2];
 
-	public Agents() {
+	public AgentsGroup() {
 	    agentsList = new ArrayList<Agent>(AGENT_COUNT);
-
-			int infected = random(AGENT_COUNT-1);
-			int m = Math.min(FrameSize/2, FrameSize/2);
-			int r = 4 * m / 5;
+	    
+	    int m = Math.min(FrameSize/2, FrameSize/2);
+	    int r = 4 * m / 5;
 
 	    for (int index = 0; index < AGENT_COUNT ; index++) {
+	    	// ID's between 1000 and 10000
+	    	ArrayList<Integer> IDlist = UniqueRandomNumbers.UniqueRandomNumber(1000, 10000, AGENT_COUNT);
+	    	Agent agentNew = new Agent(IDlist.get(index));
+	    	
+			if (IDlist.get(index) == UniqueRandomNumbers.maxList(IDlist)){
+				agentNew.setColor(new Color (5,42,120));
+				System.out.println("Agent " + index + " is the true leader");
+			}
 
-				// set the colour 
-				Agent agentNew = new Agent(new Color(5,80,120),random(1000));
-				if (index == infected){
-					agentNew.infect();
-					System.out.println("Agent " + index + " is initially infected");
-					this.infection();
-				}
-
-			// set the starting position...
-				double t = 2 * Math.PI * index / AGENT_COUNT;
-				int x = (int) Math.round(FrameSize/2 + r * Math.cos(t));
-				int y = (int) Math.round(FrameSize/2 + r * Math.sin(t));
+// ------------------- Set the simulation ------------------------------------------------
+			double t = 2 * Math.PI * index / AGENT_COUNT;
+			int x = (int) Math.round(FrameSize/2 + r * Math.cos(t));
+			int y = (int) Math.round(FrameSize/2 + r * Math.sin(t));
 
 			Dimension size = agentNew.getSize();
 
@@ -65,9 +70,13 @@ public class AgentsGroup {
 			
 			agentNew.setInfoLocation(new Point(xi,yi));
 			agentsList.add(agentNew);
+			// first column of both failed and succeeded interactions pages is the ID of agent
+			this.interactions[index][0][0] = agentNew.getAID();
+			this.interactions[index][0][1] = agentNew.getAID();
 	    }
 	}
 
+// --------------------------------- Simulation Paint ---------------------------------
 	@Override
 	protected synchronized void paintComponent(Graphics g) {
 	    super.paintComponent(g);
@@ -133,7 +142,5 @@ public class AgentsGroup {
 	    this.electionCompleted = true;
 	}
 
-	public static int random(int maxRange) {
-        return (int) Math.round((Math.random() * maxRange));
-    }
+
 }
