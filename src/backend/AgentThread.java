@@ -1,4 +1,4 @@
-/*package backend;
+package backend;
 
 import javax.swing.SwingUtilities;
 
@@ -37,11 +37,11 @@ public class AgentThread implements Runnable{
 			});
 
 			// DANGER : infectedCount is global but synchronized
-			if (parent.infectionCount() == parent.AGENT_COUNT){
+			if (parent.believers() == parent.AGENT_COUNT){
 //				long endTime   = System.currentTimeMillis();
 //				long totalTime = endTime - parent.startTime;
 //				System.out.println("Time done: "+totalTime + " they finished at round " + parent.roundsCount());
-				System.out.println("Thread "+iAgent.getID() +" finished at round " + parent.roundsCount() + ", threads remaining: " + Thread.activeCount());
+				System.out.println("Thread "+iAgent.getAID() +" finished at round " + parent.roundsCount() + ", threads remaining: " + Thread.activeCount());
 				parent.electionIsComplete();
 //				killThreads();
 //				break;
@@ -105,4 +105,3 @@ public class AgentThread implements Runnable{
 			Thread.currentThread().getThreadGroup().destroy();
 	}
 }
-*/

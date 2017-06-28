@@ -1,4 +1,4 @@
-/*package backend;
+package backend;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -15,6 +15,12 @@ import javax.swing.JPanel;
 
 public class AgentsGroup extends JPanel {
 
+/**
+	 * 
+	 */
+	// What?
+	private static final long serialVersionUID = 1L;
+	
 // 	--------------------------	Simulation Parameters
 	public static final int AGENT_COUNT = 100;
 	public static final int FrameSize = 1024;
@@ -83,29 +89,32 @@ public class AgentsGroup extends JPanel {
 	    g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 	    g2d.drawString("Rounds: "+String.valueOf(this.rounds), 100, 100);
 	    g2d.drawString("Failed: "+String.valueOf(this.failed+this.repeated), 100, 120);
-	    g2d.drawString("Infected: "+String.valueOf(this.infectionCount()), 100, 140);
+	    g2d.drawString("Believers: "+String.valueOf(this.believers()), 100, 140);
 	    for (Agent agent : agentsList) {
-		agent.paint(g2d);
-	        for (Agent iA : agent.interactions()) {
-	        	if (agent.SuccesfulInteractions().contains(iA)){
-	        		Stroke dashed = new BasicStroke(3, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[]{1}, 0);
-	        		g2d.setStroke(dashed);
-	        		g2d.setPaint(new Color(0,192,0));
-	        		g2d.drawLine(agent.getLocation().x, agent.getLocation().y, iA.getLocation().x, iA.getLocation().y);
-	        	}
-	        	else {
-	        		Stroke dashed = new BasicStroke(1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[]{9}, 0);
-	        		g2d.setStroke(dashed);
-	        		g2d.setPaint(new Color(192,192,192));
-	        		g2d.drawLine(agent.getLocation().x, agent.getLocation().y, iA.getLocation().x, iA.getLocation().y);
-	        	}
-	    	}
+	    	agent.paint(g2d);
+	    	int i = interactions.getIndex(agent.getAID());
+	    	ArrayList<Integer> a1SuccessList = interactions.getSuccessfulInteractions(agent.getAID());
+			for (int ID : a1SuccessList){
+		    	Stroke dashed = new BasicStroke(3, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[]{1}, 0);
+		    	g2d.setStroke(dashed);
+		    	g2d.setPaint(new Color(0,192,0));
+		    	Agent iA = agentsList.get(ID);
+		    	g2d.drawLine(agent.getLocation().x, agent.getLocation().y, iA.getLocation().x, iA.getLocation().y);
+			}
+			ArrayList<Integer> a1FailList = interactions.getFailedInteractions(agent.getAID());
+			for (int ID : a1FailList){
+	        	Stroke dashed = new BasicStroke(1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[]{9}, 0);
+	        	g2d.setStroke(dashed);
+	        	g2d.setPaint(new Color(192,192,192));
+	        	Agent iA = agentsList.get(ID);
+	        	g2d.drawLine(agent.getLocation().x, agent.getLocation().y, iA.getLocation().x, iA.getLocation().y);
+			}
 	    }
 	    g2d.dispose();
 	}
 
-	public synchronized void infection(){
-		this.infectedCount ++;
+	public synchronized void usefulIneraction(){
+		this.believers ++;
 	}
 	
 	public synchronized void rounds(){
@@ -119,8 +128,8 @@ public class AgentsGroup extends JPanel {
 			this.failed ++;
 	}
 	
-	public int infectionCount(){
-		int a = this.infectedCount;
+	public int believers(){
+		int a = this.believers;
 		return a;
 	}
 	
@@ -143,4 +152,3 @@ public class AgentsGroup extends JPanel {
 
 
 }
-*/
