@@ -1,4 +1,4 @@
-package backend;
+/*package backend;
 
 import javax.swing.SwingUtilities;
 
@@ -19,13 +19,13 @@ public class AgentThread implements Runnable{
 		int height = getParent().getHeight();
 
 		while (getParent().isVisible() && !parent.isElectionComplete()) {
-/*
+
 				// Some small delay...
 				// When they finish depends on how much they sleep
 				try {
 				    Thread.sleep(500);
 				} catch (InterruptedException ex) {
-				}*/
+				}
 
 			// Repaint the agents pen...
 			SwingUtilities.invokeLater(new Runnable() {
@@ -71,8 +71,8 @@ public class AgentThread implements Runnable{
 						System.out.println("	This interaction didn't change state of the agents");
 						parent.failed(1);
 					}
-/*				  	iAgent.updateLeader(b.getID());
-					b.updateLeader(iAgent.getID());*/
+				  	iAgent.updateLeader(b.getID());
+					b.updateLeader(iAgent.getID());
 					b.disengage();
 					iAgent.disengage();
 				}
@@ -105,3 +105,4 @@ public class AgentThread implements Runnable{
 			Thread.currentThread().getThreadGroup().destroy();
 	}
 }
+*/
