@@ -1,9 +1,6 @@
 package backend;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
 
 
 // TO DO: turn this whole class to Lists
@@ -21,8 +18,8 @@ public class Interactions {
     }
     
     public void initi(int i, int ID){
-    	this.interactions[i][0][0] = ID;
-		this.interactions[i][1][0] = ID;
+    	this.interactions[i][0][0] = ID; // successful : conversion happened
+		this.interactions[i][1][0] = ID; // nothing happened
     }
     
     private boolean hasID(int ID){
@@ -48,12 +45,11 @@ public class Interactions {
     		}
     		else 
     			this.errors = this.errors + "ID doesn't exist\n";
-    		System.out.println(location);
     	}
     	return location;
     }
     
-    public void successful(int ID, int ID2){
+    public synchronized void successful(int ID, int ID2){
     	int a = searchID(ID);
     	if (hasID(ID) && hasID(ID2)){
     		this.success ++;
@@ -63,7 +59,7 @@ public class Interactions {
     		this.errors = this.errors + "ID doesn't exist\n";
     }
 
-    public void failed(int ID, int ID2){
+    public synchronized void failed(int ID, int ID2){
     	int a = searchID(ID);
     	if (hasID(ID) && hasID(ID2)){
     		this.failure ++;

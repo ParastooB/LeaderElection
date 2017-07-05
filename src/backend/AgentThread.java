@@ -15,15 +15,12 @@ public class AgentThread implements Runnable{
 	@Override
 	public void run() {
 
-		int width = getParent().getWidth();
-		int height = getParent().getHeight();
-
 		while (getParent().isVisible() && !parent.isElectionComplete()) {
 
 				// Some small delay...
 				// When they finish depends on how much they sleep
 				try {
-				    Thread.sleep(500);
+				    Thread.sleep(1000);
 				} catch (InterruptedException ex) {
 				}
 
@@ -37,42 +34,50 @@ public class AgentThread implements Runnable{
 			});
 
 			// DANGER : infectedCount is global but synchronized
-			if (parent.believers() == parent.AGENT_COUNT){
-//				long endTime   = System.currentTimeMillis();
-//				long totalTime = endTime - parent.startTime;
-//				System.out.println("Time done: "+totalTime + " they finished at round " + parent.roundsCount());
+			// -1 HERE
+			if (parent.getBelievers() == parent.AGENT_COUNT-1){
 				System.out.println("Thread "+iAgent.getAID() +" finished at round " + parent.roundsCount() + ", threads remaining: " + Thread.activeCount());
 				parent.electionIsComplete();
-//				killThreads();
-//				break;
+
 			}
 			else {
 			// not every time they connect they can infect
 				
-				Agent b = getParent().getAgents().get(parent.random(parent.AGENT_COUNT-1));
-				System.out.println("Agent " + iAgent.getID() + " attemping to connect to agent "+ b.getID());
+				Agent b = getParent().getAgents().get(UniqueRandomNumbers.random(parent.AGENT_COUNT-1));
+				System.out.println("Agent " + iAgent.getAID() + " attemping to connect to agent "+ b.getAID());
 			// DANGER : failed is global
-				if (!b.isEngaged() && !iAgent.isEngaged() && (b.getID() != iAgent.getID()) ){
-					b.engage(iAgent);
-					iAgent.engage(b);
-				  	if (b.isInfected() && !iAgent.isInfected()){
-						iAgent.infect();
-						b.Infected(iAgent);
-						System.out.println("	Agent " + iAgent.getID() + " got infected by agent "+ b.getID());
-						parent.infection();
+				if (!b.isEngaged() && !iAgent.isEngaged() && (b.getAID() != iAgent.getAID()) ){
+					b.engage();
+					iAgent.engage();
+				  	if (b.getLeaderAID() > iAgent.getLeaderAID()){
+						iAgent.converted();
+						iAgent.updateLeader(b.getLeaderAID());
+						// b converted iAgent so only successful for b
+						if (parent.leader().getAID() ==  iAgent.getLeaderAID())
+							parent.belive(iAgent);
+						parent.interactions.successful(b.getAID(), iAgent.getAID());
+						parent.interactions.failed(iAgent.getAID(), b.getAID());
+						System.out.println("	Agent " + iAgent.getAID() + " got infected by agent "+ b.getAID());
 				  	}
-					else if (iAgent.isInfected() && !b.isInfected()){
-						b.infect();
-						iAgent.Infected(b);
-						System.out.println("	Agent " + iAgent.getID() + " infected agent "+ b.getID());
-						parent.infection();
+					else if (b.getLeaderAID() < iAgent.getLeaderAID()){
+						b.converted();
+						b.updateLeader(iAgent.getAID());
+						if (parent.leader().getAID() ==  b.getLeaderAID())
+							parent.belive(b);
+						//iAgent converted b
+						parent.interactions.successful(iAgent.getAID(), b.getAID());
+						parent.interactions.failed(b.getAID(), iAgent.getAID());
+						System.out.println("	Agent " + iAgent.getAID() + " infected agent "+ b.getAID());
 					}
 					else {
+						//b.getLeaderAID() == iAgent.getLeaderAID()
+						b.metFollower();
+						// none of them were successful
+						parent.interactions.failed(b.getAID(), iAgent.getAID());
+						parent.interactions.failed(iAgent.getAID(), b.getAID());
 						System.out.println("	This interaction didn't change state of the agents");
 						parent.failed(1);
 					}
-				  	iAgent.updateLeader(b.getID());
-					b.updateLeader(iAgent.getID());
 					b.disengage();
 					iAgent.disengage();
 				}
@@ -82,12 +87,12 @@ public class AgentThread implements Runnable{
 				}
 				// LOCK
 				parent.rounds();
-				System.out.println("	This is round: "+ parent.roundsCount());
+				System.out.println(parent.interactions.toString());
 				
 				// Some small delay...
 				// When they finish depends on how much they sleep
 				try {
-				    Thread.sleep(10);
+				    Thread.sleep(500);
 				} catch (InterruptedException ex) {
 				}
 			}

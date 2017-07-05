@@ -22,14 +22,18 @@ public class AgentsGroup extends JPanel {
 	private static final long serialVersionUID = 1L;
 	
 // 	--------------------------	Simulation Parameters
-	public static final int AGENT_COUNT = 100;
-	public static final int FrameSize = 1024;
+	public final int AGENT_COUNT = 5;
+	public static final int FrameSizeX = 1024;
+	public static final int FrameSizeY = 1024;
 //	--------------------------------------------------------
 	
 	private List<Agent> agentsList;
 	
 	// Robots who are aware of the true leader value
 	private int believers= 0;
+	
+	// is this useful?
+	private List<Agent> believerList = new ArrayList<Agent>(AGENT_COUNT);
 	
 	private int rounds = 0;
 	private int failed = 0;
@@ -41,7 +45,7 @@ public class AgentsGroup extends JPanel {
 	public AgentsGroup() {
 	    agentsList = new ArrayList<Agent>(AGENT_COUNT);
 	    
-	    int m = Math.min(FrameSize/2, FrameSize/2);
+	    int m = Math.min(FrameSizeX/2, FrameSizeY/2);
 	    int r = 4 * m / 5;
 
 	    for (int index = 0; index < AGENT_COUNT ; index++) {
@@ -49,36 +53,34 @@ public class AgentsGroup extends JPanel {
 	    	ArrayList<Integer> IDlist = UniqueRandomNumbers.UniqueRandomNumber(1000, 10000, AGENT_COUNT);
 	    	Agent agentNew = new Agent(IDlist.get(index));
 	    	
-			if (IDlist.get(index) == UniqueRandomNumbers.maxList(IDlist)){
-				agentNew.setColor(new Color (5,42,120));
-				System.out.println("Agent " + index + " is the true leader");
-			}
-
 // ------------------- Set the simulation ------------------------------------------------
 			double t = 2 * Math.PI * index / AGENT_COUNT;
-			int x = (int) Math.round(FrameSize/2 + r * Math.cos(t));
-			int y = (int) Math.round(FrameSize/2 + r * Math.sin(t));
+			int x = (int) Math.round(FrameSizeX/2 + r * Math.cos(t));
+			int y = (int) Math.round(FrameSizeY/2 + r * Math.sin(t));
 
 			Dimension size = agentNew.getSize();
 
-			if (x + size.width > FrameSize) {
-				x = FrameSize - size.width;
+			if (x + size.width > FrameSizeX) {
+				x = FrameSizeX - size.width;
 			}
-			if (y + size.height > FrameSize) {
-				y = FrameSize - size.height;
+			if (y + size.height > FrameSizeY) {
+				y = FrameSizeY - size.height;
 			}
 
 			agentNew.setLocation(new Point(x, y));
 			
 			int s = 19 * m / 20;
-			int xi = (int) Math.round(FrameSize/2 + s * Math.cos(t) - 1);
-			int yi = (int) Math.round(FrameSize/2 + s * Math.sin(t) - 1);
+			int xi = (int) Math.round(FrameSizeX/2 + s * Math.cos(t) - 1);
+			int yi = (int) Math.round(FrameSizeY/2 + s * Math.sin(t) - 1);
 			
 			agentNew.setInfoLocation(new Point(xi,yi));
 			agentsList.add(agentNew);
 			// first column of both failed and succeeded interactions pages is the ID of agent
 			interactions.initi(index, agentNew.getAID());
 	    }
+	    	
+	    leader().setColor(new Color (29,24,90));
+
 	}
 
 // --------------------------------- Simulation Paint ---------------------------------
@@ -89,16 +91,15 @@ public class AgentsGroup extends JPanel {
 	    g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 	    g2d.drawString("Rounds: "+String.valueOf(this.rounds), 100, 100);
 	    g2d.drawString("Failed: "+String.valueOf(this.failed+this.repeated), 100, 120);
-	    g2d.drawString("Believers: "+String.valueOf(this.believers()), 100, 140);
+	    g2d.drawString("Believers: "+String.valueOf(this.getBelievers()), 100, 140);
 	    for (Agent agent : agentsList) {
 	    	agent.paint(g2d);
-	    	int i = interactions.getIndex(agent.getAID());
 	    	ArrayList<Integer> a1SuccessList = interactions.getSuccessfulInteractions(agent.getAID());
 			for (int ID : a1SuccessList){
 		    	Stroke dashed = new BasicStroke(3, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[]{1}, 0);
 		    	g2d.setStroke(dashed);
 		    	g2d.setPaint(new Color(0,192,0));
-		    	Agent iA = agentsList.get(ID);
+		    	Agent iA = searchList(ID);
 		    	g2d.drawLine(agent.getLocation().x, agent.getLocation().y, iA.getLocation().x, iA.getLocation().y);
 			}
 			ArrayList<Integer> a1FailList = interactions.getFailedInteractions(agent.getAID());
@@ -106,7 +107,7 @@ public class AgentsGroup extends JPanel {
 	        	Stroke dashed = new BasicStroke(1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[]{9}, 0);
 	        	g2d.setStroke(dashed);
 	        	g2d.setPaint(new Color(192,192,192));
-	        	Agent iA = agentsList.get(ID);
+	        	Agent iA = searchList(ID);
 	        	g2d.drawLine(agent.getLocation().x, agent.getLocation().y, iA.getLocation().x, iA.getLocation().y);
 			}
 	    }
@@ -128,7 +129,12 @@ public class AgentsGroup extends JPanel {
 			this.failed ++;
 	}
 	
-	public int believers(){
+	public synchronized void belive(Agent i){
+		this.believerList.add(i);
+			this.believers ++;
+	}
+	
+	public int getBelievers(){
 		int a = this.believers;
 		return a;
 	}
@@ -150,5 +156,22 @@ public class AgentsGroup extends JPanel {
 	    this.electionCompleted = true;
 	}
 
+	public Agent leader(){
+		Agent maxAG = this.agentsList.get(0);
+		for (Agent agent : this.agentsList) {
+			if (agent.getAID() > maxAG.getAID())
+				maxAG = agent;
+		}
+		return maxAG;
+	}
+	
+	private Agent searchList(int ID){
+		Agent found = new Agent(-1);
+		for (Agent agent : this.agentsList) {
+			if (agent.getAID() == ID)
+				found = agent;
+		}
+		return found;
+	}
 
 }

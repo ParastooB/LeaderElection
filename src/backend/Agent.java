@@ -7,9 +7,6 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.Point;
-import java.util.ArrayList;
-import java.util.List;
-
 /*
  * Agent.java
  * LeaderElection
@@ -56,6 +53,7 @@ public class Agent {
     /**
      * How many agents has THIS agent interacted with who are following the
      * same leader. XOR with conversions
+     * Just equal or same true leader?
      */
     private int metFollowers;
 
@@ -77,7 +75,6 @@ public class Agent {
 	private Point location;
 	private Point infoLocation;
 	private Dimension size;
-	private boolean infected = false;
 	private boolean busy = false;
 // -----------------------------------------------------------
 
@@ -221,8 +218,10 @@ public class Agent {
 	public boolean isEngaged() {
 	    return this.busy;
 	}
-
-
+	
+	public void engage() {
+	    this.busy = true;
+	}
 
 	public void updateLeader(int NewLeader) {
 	    this.leaderAID = Math.max(NewLeader, this.leaderAID);
