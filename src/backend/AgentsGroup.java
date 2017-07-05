@@ -76,7 +76,7 @@ public class AgentsGroup extends JPanel {
 			agentNew.setInfoLocation(new Point(xi,yi));
 			agentsList.add(agentNew);
 			// first column of both failed and succeeded interactions pages is the ID of agent
-			interactions.initi(index, agentNew.getAID());
+			interactions.initi(agentNew.getAID());
 	    }
 	    	
 	    leader().setColor(new Color (29,24,90));
@@ -95,6 +95,9 @@ public class AgentsGroup extends JPanel {
 	    for (Agent agent : agentsList) {
 	    	agent.paint(g2d);
 	    	ArrayList<Integer> a1SuccessList = interactions.getSuccessfulInteractions(agent.getAID());
+	    	ArrayList<Integer> a1FailList = interactions.getFailedInteractions(agent.getAID());
+	    	
+	    	// Painting the connections
 			for (int ID : a1SuccessList){
 		    	Stroke dashed = new BasicStroke(3, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[]{1}, 0);
 		    	g2d.setStroke(dashed);
@@ -102,12 +105,11 @@ public class AgentsGroup extends JPanel {
 		    	Agent iA = searchList(ID);
 		    	g2d.drawLine(agent.getLocation().x, agent.getLocation().y, iA.getLocation().x, iA.getLocation().y);
 			}
-			ArrayList<Integer> a1FailList = interactions.getFailedInteractions(agent.getAID());
-			for (int ID : a1FailList){
+			for (int ID2 : a1FailList){
 	        	Stroke dashed = new BasicStroke(1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[]{9}, 0);
 	        	g2d.setStroke(dashed);
 	        	g2d.setPaint(new Color(192,192,192));
-	        	Agent iA = searchList(ID);
+	        	Agent iA = searchList(ID2);
 	        	g2d.drawLine(agent.getLocation().x, agent.getLocation().y, iA.getLocation().x, iA.getLocation().y);
 			}
 	    }

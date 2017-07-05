@@ -20,7 +20,7 @@ public class AgentThread implements Runnable{
 				// Some small delay...
 				// When they finish depends on how much they sleep
 				try {
-				    Thread.sleep(1000);
+				    Thread.sleep(5000);
 				} catch (InterruptedException ex) {
 				}
 
@@ -87,12 +87,11 @@ public class AgentThread implements Runnable{
 				}
 				// LOCK
 				parent.rounds();
-				System.out.println(parent.interactions.toString());
 				
 				// Some small delay...
 				// When they finish depends on how much they sleep
 				try {
-				    Thread.sleep(500);
+				    Thread.sleep(1000);
 				} catch (InterruptedException ex) {
 				}
 			}

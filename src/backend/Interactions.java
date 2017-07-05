@@ -1,101 +1,61 @@
 package backend;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 
 // TO DO: turn this whole class to Lists
 public class Interactions {
-	int[][][] interactions;
-//	ArrayList<Integer> interactions = new ArrayList<Integer>();
+
+	Map<Integer, Tuple<ArrayList<Integer>,ArrayList<Integer>>> m = new HashMap<Integer, Tuple<ArrayList<Integer>,ArrayList<Integer>>>();
+	
 	int agentCount;
 	String errors = new String();
 	int success = 0;
 	int failure = 0;
 	
     public Interactions(int Count) {
-    	interactions = new int[Count][2][Count*10];
     	this.agentCount = Count;
     }
     
-    public void initi(int i, int ID){
-    	this.interactions[i][0][0] = ID; // successful : conversion happened
-		this.interactions[i][1][0] = ID; // nothing happened
+    public void initi(int ID){
+    	ArrayList<Integer> failed = new ArrayList<Integer>();
+    	ArrayList<Integer> succeed = new ArrayList<Integer>();
+    	Tuple<ArrayList<Integer>,ArrayList<Integer>> tup = new Tuple<ArrayList<Integer>,ArrayList<Integer>>(succeed, failed);
+    	this.m.put(ID, tup);
     }
     
     private boolean hasID(int ID){
-    	boolean result = false; 
-    	int a[] = new int [agentCount];
-    	for (int i = 0; i < agentCount; i++){
-    		a[i] = interactions[i][0][0];
-    		result = (a[i] == ID);
-    		if (result == true)
-    			break;
-    	}
+    	boolean result = this.m.containsKey(ID);
     	return result;
     }
     
-    private int searchID(int ID){
-    	boolean result = false; 
-    	int location = -1;
-    	for (int i = 0; i < agentCount; i++){
-    		result = (this.interactions[i][0][0] == ID);
-    		if (result == true){
-    			location = i;
-    			break;
-    		}
-    		else 
-    			this.errors = this.errors + "ID doesn't exist\n";
-    	}
-    	return location;
-    }
-    
     public synchronized void successful(int ID, int ID2){
-    	int a = searchID(ID);
     	if (hasID(ID) && hasID(ID2)){
     		this.success ++;
-	    	this.interactions[a][0][this.success] = ID2;
+	    	boolean SError = this.m.get(ID).x.add(ID2);
     	}
     	else
     		this.errors = this.errors + "ID doesn't exist\n";
     }
 
     public synchronized void failed(int ID, int ID2){
-    	int a = searchID(ID);
     	if (hasID(ID) && hasID(ID2)){
     		this.failure ++;
-			this.interactions[a][1][this.failure] = ID2;
+    		boolean FError = this.m.get(ID).y.add(ID2);
     	}
     	else
     		this.errors = this.errors + "ID doesn't exist\n";
     }
     
-    public int getIndex(int ID){
-    	return searchID(ID);
-    }
-    
-    public int getID(int i){
-    	return this.interactions[i][0][0];
-    }
-    
     public ArrayList<Integer> getSuccessfulInteractions(int ID){
-    	ArrayList<Integer> l = new ArrayList<Integer>();
-    	int agntLoc = searchID(ID);
-    	int i = 1;
-    	while (this.interactions[agntLoc][0][i] != 0){
-    		l.add(this.interactions[agntLoc][0][i]);
-    		i ++;
-    	}
+    	ArrayList<Integer> l = this.m.get(ID).x;
     	return l;
     }
     
     public ArrayList<Integer> getFailedInteractions(int ID){
-    	ArrayList<Integer> l = new ArrayList<Integer>();
-    	int agntLoc = searchID(ID);
-    	int i = 1;
-    	while (this.interactions[agntLoc][1][i] != 0){
-    		l.add(this.interactions[agntLoc][1][i]);
-    		i ++;
-    	}
+    	ArrayList<Integer> l = this.m.get(ID).y;
     	return l;
     }
 
@@ -103,19 +63,13 @@ public class Interactions {
 	public String toString() {
 		String result = new String();
 		String result2 = new String();
-		for (int i = 1; i <= agentCount; i++){
-			result = result + "Successful Interactions [interactions=";
-			result2 = result2 + "Failed Interactions [interactions=";
-			for (int j = 0; j < 10*agentCount; j++){
-				result = result + " " + interactions[i-1][0][j] + ", ";
-				result2 = result2 + " " + interactions[i-1][1][j] + ", ";
-			}
-			result = result + "agent count = " + i + "]\n";
-			result2 = result2 + "agent count = " + i + "]\n";
+		for (Integer p : this.m.keySet()){
+			result = result + "Successful Interactions of Agent " + p + " --> " +
+						this.m.get(p).x + "\n";
+			result2 = result2 + "Failed Interactions of Agent " + p + " --> " +
+						this.m.get(p).y + "\n";
+
 		}
 		return result + result2;
 	}
-    
-    
-
 }
