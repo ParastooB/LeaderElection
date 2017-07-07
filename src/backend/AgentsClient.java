@@ -32,13 +32,7 @@ public class AgentsClient {
                 frame.setSize(FrameSizeX, FrameSizeY);
                 frame.setVisible(true);
                 
-                ThreadGroup tg = new ThreadGroup ("1");
-                for (Agent agent : agents.getAgents()) {
-                	AgentThread gb = new AgentThread(agents,agent);
-                    new Thread(tg, gb, "Thread for " + agent.getAID()).start();
-                }
-                //tg.list();
-
+                ThreadsGroup m =  new ThreadsGroup(agents);
             }
         });
     }

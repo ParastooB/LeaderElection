@@ -1,15 +1,20 @@
 package backend;
 
+import java.awt.Color;
+
 import javax.swing.SwingUtilities;
 
 //why not extend thread
 public class AgentThread implements Runnable{
 	private AgentsGroup parent;
 	private Agent iAgent;
-
-	public AgentThread(AgentsGroup parent, Agent iAgent) {
+	private ThreadsGroup threads;
+	
+	public AgentThread(AgentsGroup parent, Agent iAgent, ThreadsGroup threads) {
 	    this.parent = parent;
 	    this.iAgent = iAgent;
+	    this.threads = threads;
+	    
 	}
 
 	@Override
@@ -19,10 +24,6 @@ public class AgentThread implements Runnable{
 
 				// Some small delay...
 				// When they finish depends on how much they sleep
-				try {
-				    Thread.sleep(5000);
-				} catch (InterruptedException ex) {
-				}
 
 			// Repaint the agents pen...
 			SwingUtilities.invokeLater(new Runnable() {
@@ -38,6 +39,7 @@ public class AgentThread implements Runnable{
 			if (parent.getBelievers() == parent.AGENT_COUNT-1){
 				System.out.println("Thread "+iAgent.getAID() +" finished at round " + parent.roundsCount() + ", threads remaining: " + Thread.activeCount());
 				parent.electionIsComplete();
+				threads.StopElection();
 
 			}
 			else {
@@ -87,6 +89,8 @@ public class AgentThread implements Runnable{
 				}
 				// LOCK
 				parent.rounds();
+				if (iAgent.getLeaderAID() == parent.leader().getAID() && iAgent.getAID() != parent.leader().getAID())
+					iAgent.setColor(new Color (0, 156, 211));
 				
 				// Some small delay...
 				// When they finish depends on how much they sleep

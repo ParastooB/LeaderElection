@@ -22,7 +22,7 @@ public class AgentsGroup extends JPanel {
 	private static final long serialVersionUID = 1L;
 	
 // 	--------------------------	Simulation Parameters
-	public final int AGENT_COUNT = 5;
+	public final int AGENT_COUNT = 30;
 	public static final int FrameSizeX = 1024;
 	public static final int FrameSizeY = 1024;
 //	--------------------------------------------------------
@@ -79,7 +79,7 @@ public class AgentsGroup extends JPanel {
 			interactions.initi(agentNew.getAID());
 	    }
 	    	
-	    leader().setColor(new Color (29,24,90));
+	    leader().setColor(new Color (211,37,0));
 
 	}
 
@@ -95,8 +95,6 @@ public class AgentsGroup extends JPanel {
 	    for (Agent agent : agentsList) {
 	    	agent.paint(g2d);
 	    	ArrayList<Integer> a1SuccessList = interactions.getSuccessfulInteractions(agent.getAID());
-	    	ArrayList<Integer> a1FailList = interactions.getFailedInteractions(agent.getAID());
-	    	
 	    	// Painting the connections
 			for (int ID : a1SuccessList){
 		    	Stroke dashed = new BasicStroke(3, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[]{1}, 0);
@@ -105,6 +103,7 @@ public class AgentsGroup extends JPanel {
 		    	Agent iA = searchList(ID);
 		    	g2d.drawLine(agent.getLocation().x, agent.getLocation().y, iA.getLocation().x, iA.getLocation().y);
 			}
+			ArrayList<Integer> a1FailList = interactions.getFailedInteractions(agent.getAID());
 			for (int ID2 : a1FailList){
 	        	Stroke dashed = new BasicStroke(1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[]{9}, 0);
 	        	g2d.setStroke(dashed);
