@@ -11,7 +11,15 @@ public class ThreadsGroup {
 	    }
     }
     
-    public void StopElection(){
+    public void stopElection(){
     	tg.destroy();
+    }
+    
+    public void pauseElection(){
+    	tg.suspend();
+    }
+    
+    public void resumeElection(){
+    	tg.resume();
     }
 }

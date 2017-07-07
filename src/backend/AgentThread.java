@@ -39,7 +39,7 @@ public class AgentThread implements Runnable{
 			if (parent.getBelievers() == parent.AGENT_COUNT-1){
 				System.out.println("Thread "+iAgent.getAID() +" finished at round " + parent.roundsCount() + ", threads remaining: " + Thread.activeCount());
 				parent.electionIsComplete();
-				threads.StopElection();
+				threads.stopElection();
 
 			}
 			else {
@@ -94,10 +94,10 @@ public class AgentThread implements Runnable{
 				
 				// Some small delay...
 				// When they finish depends on how much they sleep
-				try {
+/*				try {
 				    Thread.sleep(1000);
 				} catch (InterruptedException ex) {
-				}
+				}*/
 			}
 
 		}

@@ -33,6 +33,16 @@ public class AgentsClient {
                 frame.setVisible(true);
                 
                 ThreadsGroup m =  new ThreadsGroup(agents);
+                try {
+                	Thread.sleep(100);
+                } catch (InterruptedException ex) {
+                	}
+                m.pauseElection();
+                try {
+                	Thread.sleep(100);
+                } catch (InterruptedException ex) {
+                	}
+                m.resumeElection();
             }
         });
     }
