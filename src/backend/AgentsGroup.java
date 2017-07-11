@@ -22,7 +22,7 @@ public class AgentsGroup extends JPanel {
 	private static final long serialVersionUID = 1L;
 	
 // 	--------------------------	Simulation Parameters
-	public final int AGENT_COUNT = 30;
+	public final int AGENT_COUNT = 5;
 	public static final int FrameSizeX = 1024;
 	public static final int FrameSizeY = 1024;
 //	--------------------------------------------------------

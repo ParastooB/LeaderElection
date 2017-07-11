@@ -31,18 +31,19 @@ public class AgentsClient {
                 frame.add(agents);
                 frame.setSize(FrameSizeX, FrameSizeY);
                 frame.setVisible(true);
-                
                 ThreadsGroup m =  new ThreadsGroup(agents);
                 try {
                 	Thread.sleep(100);
                 } catch (InterruptedException ex) {
+                	System.out.println("didn't sleep for 100 ms");
                 	}
-                m.pauseElection();
+                m.startElection();
                 try {
-                	Thread.sleep(100);
+                	Thread.sleep(10);
                 } catch (InterruptedException ex) {
+                	System.out.println("didn't sleep for 100 ms");
                 	}
-                m.resumeElection();
+                m.interuptElection();
             }
         });
     }

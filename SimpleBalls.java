@@ -45,19 +45,17 @@ public class SimpleBalls {
                 Thread m = new Thread(new BounceEngine(balls));
                 
                 m.start();
-                for(int i = 0; i<10;i++){
                 try {
-                	m.interrupt();
-                	System.out.println("Despacito");
-                } catch (SecurityException ex) {
+                    Thread.sleep(100);
+                } catch (InterruptedException ex) {
                 }
-                try {
-					TimeUnit.SECONDS.sleep(1);
+        	    /*m.interrupt();
+        	    try {
+					m.join(1_000);
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
-				}
-                }
+				}*/
 
             }
         });
@@ -144,10 +142,11 @@ public class SimpleBalls {
                 }
 
                 // Some small delay...
-/*                try {
-                    Thread.sleep(1000);
+                try {
+                    Thread.sleep(100);
                 } catch (InterruptedException ex) {
-                }*/
+                	break;
+                }
 
             }
 
