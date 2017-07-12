@@ -34,13 +34,18 @@ public class AgentsClient {
         }
         System.out.println("Start");
         m.startOne(random);
-        m.interuptOne(random);
-        try {
+/*        try {
         	Thread.sleep(1000);
         } catch (InterruptedException ex) {
         	System.out.println("didn't sleep for 100 ms");
-        }
-        m.interuptOne(random);
+        }*/
+        try {
+			Thread.currentThread().wait();
+		} catch (InterruptedException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+        m.resumeOne(random);
         try {
         	m.waitForOne(random);
         } catch (InterruptedException e) {

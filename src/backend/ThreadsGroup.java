@@ -38,6 +38,10 @@ public class ThreadsGroup {
     	this.m.get(a).join();
     }
     
+    public void resumeOne(Agent a){
+    	this.m.get(a).run();
+    }
+    
     public void endThread(Agent e){
     	this.m.remove(e);
     }

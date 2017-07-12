@@ -6,3 +6,6 @@ https://stackoverflow.com/questions/3350459/parallel-programming-in-java
 http://www.jppf.org/doc/5.1/index.php?title=A_first_taste_of_JPPF
 http://shop.oreilly.com/product/9780596521981.do
 http://panda.ispras.ru/~javap/parallel_java/par_java/parjava.html
+https://stackoverflow.com/questions/2126997/who-is-calling-the-java-thread-interrupt-method-if-im-not
+https://praveer09.github.io/technology/2015/12/06/understanding-thread-interruption-in-java/
+https://stackoverflow.com/questions/4252187/how-to-stop-execution-after-a-certain-time-in-java
