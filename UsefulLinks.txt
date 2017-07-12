@@ -1,0 +1,8 @@
+http://www.javaworld.com/article/2074481/java-concurrency/java-101--understanding-java-threads--part-4---thread-groups--volatility--and-threa.html
+http://nadeausoftware.com/articles/2008/04/java_tip_how_list_and_find_threads_and_thread_groups
+https://www.tutorialspoint.com/javaexamples/thread_showall.htm
+https://stackoverflow.com/questions/15624296/how-to-find-and-stop-all-currently-running-threads
+https://stackoverflow.com/questions/3350459/parallel-programming-in-java
+http://www.jppf.org/doc/5.1/index.php?title=A_first_taste_of_JPPF
+http://shop.oreilly.com/product/9780596521981.do
+http://panda.ispras.ru/~javap/parallel_java/par_java/parjava.html
