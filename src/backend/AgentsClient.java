@@ -9,7 +9,7 @@ public class AgentsClient {
 	public static final int FrameSizeY = 1000;
 
     public static void main(String[] args) {
-        //new AgentsClient();
+//        new AgentsClient();
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (ClassNotFoundException ex) {
@@ -32,24 +32,24 @@ public class AgentsClient {
         } catch (InterruptedException ex) {
         	System.out.println("didn't sleep for 100 ms");
         }
-        System.out.println("Start");
+        System.out.println("Starting . . . ");
         m.startOne(random);
 /*        try {
         	Thread.sleep(1000);
         } catch (InterruptedException ex) {
         	System.out.println("didn't sleep for 100 ms");
         }*/
-        try {
-			Thread.currentThread().wait();
+/*        try {
+			this.wait();
 		} catch (InterruptedException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-        m.resumeOne(random);
-        try {
+        m.resumeOne(random);*/
+/*        try {
         	m.waitForOne(random);
         } catch (InterruptedException e) {
-        }
+        }*/
         System.out.println("Done");
     }
 

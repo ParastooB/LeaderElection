@@ -22,7 +22,7 @@ public class AgentThread implements Runnable{
 	@Override
 	public void run() {
 
-		while (getParent().isVisible() && !parent.isElectionComplete()) {
+		while (getParent().isVisible() && !parent.isElectionComplete() && this.awake) {
 
 				// Some small delay...
 				// When they finish depends on how much they sleep
@@ -102,6 +102,8 @@ public class AgentThread implements Runnable{
 				// When they finish depends on how much they sleep
 				try {
 				    Thread.sleep(1000);
+//				    this.notify();
+				    putSleep();
 				} catch (InterruptedException ex) {
 				}
 			}
