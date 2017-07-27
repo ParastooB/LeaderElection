@@ -9,3 +9,7 @@ http://panda.ispras.ru/~javap/parallel_java/par_java/parjava.html
 https://stackoverflow.com/questions/2126997/who-is-calling-the-java-thread-interrupt-method-if-im-not
 https://praveer09.github.io/technology/2015/12/06/understanding-thread-interruption-in-java/
 https://stackoverflow.com/questions/4252187/how-to-stop-execution-after-a-certain-time-in-java
+https://stackoverflow.com/questions/16758346/how-pause-and-then-resume-a-thread
+https://stackoverflow.com/questions/1553886/java-lang-illegalmonitorstateexception-m-null-failed-to-get-monitor-for
+https://math.stackexchange.com/questions/691823/in-how-many-ways-can-20-identical-balls-be-distributed-into-4-distinct-boxes-sub
+https://math.stackexchange.com/questions/229430/how-many-integer-solutions-to-a-linear-combination-with-restrictions
