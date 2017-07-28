@@ -13,3 +13,15 @@ https://stackoverflow.com/questions/16758346/how-pause-and-then-resume-a-thread
 https://stackoverflow.com/questions/1553886/java-lang-illegalmonitorstateexception-m-null-failed-to-get-monitor-for
 https://math.stackexchange.com/questions/691823/in-how-many-ways-can-20-identical-balls-be-distributed-into-4-distinct-boxes-sub
 https://math.stackexchange.com/questions/229430/how-many-integer-solutions-to-a-linear-combination-with-restrictions
+https://developers.google.com/nearby/connections/overview
+https://developer.android.com/training/connect-devices-wirelessly/nsd.html#register
+https://stackoverflow.com/questions/4638939/android-communication-between-two-applications
+https://web.archive.org/web/20130731024012/http://code.google.com/p/openmobster/wiki/InterAppCommunication
+https://developer.android.com/reference/android/net/nsd/NsdManager.html#discoverServices(java.lang.String,%20int,%20android.net.nsd.NsdManager.DiscoveryListener)
+https://android-developers.googleblog.com/2009/04/updating-applications-for-on-screen.html
+https://developer.android.com/guide/topics/connectivity/wifip2p.html
+https://androiddevsimplified.wordpress.com/2016/09/12/local-networking-using-nsd-network-service-discovery/
+https://stackoverflow.com/questions/38722634/how-to-find-all-available-services-using-androids-native-network-service-discov
+https://developer.xamarin.com/api/type/Android.Net.Nsd.NsdManager/
+https://www.tutorialspoint.com/javaexamples/thread_interrupt.htm
+https://www3.ntu.edu.sg/home/ehchua/programming/java/j5e_multithreading.html
