@@ -5,20 +5,23 @@ public class Test2 extends Object implements Runnable{
    public void run() {
       try {
          System.out.println("in run() - about to work2()");
+//         work();
          work2();
          System.out.println("in run() - back from work2()");
       } catch (InterruptedException x) {
          System.out.println("in run() - interrupted in work2()");
-         return;
+//         return;
       }
       System.out.println("in run() - doing stuff after nap");
       System.out.println("in run() - leaving normally");
    }
    public void work2() throws InterruptedException {
       while (true) {
+//    	 if (Thread.interrupted()) {
          if (Thread.currentThread().isInterrupted()) {
             System.out.println("C isInterrupted()="+ Thread.currentThread().isInterrupted());
-            Thread.sleep(2000);
+//			work();
+            Thread.sleep(1);
             System.out.println("D isInterrupted()="+ Thread.currentThread().isInterrupted());
          }
       }
@@ -40,7 +43,7 @@ public class Test2 extends Object implements Runnable{
       Thread t = new Thread(si);
       t.start();
       try {
-         Thread.sleep(2000);
+         Thread.sleep(10);
       } catch (InterruptedException x) { }
 		
       System.out.println("in main() - interrupting other thread");
