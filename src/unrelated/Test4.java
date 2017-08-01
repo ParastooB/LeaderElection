@@ -44,18 +44,4 @@ public abstract class Test4 implements Runnable {
 		counter = 300;
 		executor.shutdownNow();
 	}
-	
-    public static void main(String[] args) throws InterruptedException{
-    	long startTime   = System.currentTimeMillis();
-        Test2 si = new Test2();
-        Thread t = new Thread(si);
-        t.start();
-        try {
-           Thread.sleep(10);
-        } catch (InterruptedException x) { }
-        
-	    long endTime   = System.currentTimeMillis();
-	    long totalTime = endTime - startTime;
-	    System.out.println(totalTime + "\n");
-     }
 }
