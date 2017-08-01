@@ -5,7 +5,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
-public abstract class Test4 implements Runnable {
+public class Test4 implements Runnable {
 
 	private ExecutorService executor = Executors.newSingleThreadExecutor();
 	private Future<?> publisher;
@@ -16,13 +16,11 @@ public abstract class Test4 implements Runnable {
 
 	}
 
-	abstract void task();
-
 	@Override
 	public void run() {
 		Thread t = Thread.currentThread();
 		while (!t.interrupted()) {
-			task();
+			System.out.println("Working ... \n");
 		}
 	}
 

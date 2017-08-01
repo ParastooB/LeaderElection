@@ -1,6 +1,9 @@
 package backend;
 
 import java.awt.Color;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 import javax.swing.SwingUtilities;
 
@@ -10,6 +13,8 @@ public class AgentThread implements Runnable{
 	private Agent iAgent;
 	private ThreadsGroup threads;
 	private boolean awake;
+	private ExecutorService executor = Executors.newSingleThreadExecutor();
+	private Future<?> publisher;
 	
 	public AgentThread(AgentsGroup parent, Agent iAgent, ThreadsGroup threads) {
 	    this.parent = parent;
@@ -22,8 +27,8 @@ public class AgentThread implements Runnable{
 	@Override
 	public void run() {
 
-		while (getParent().isVisible() && !parent.isElectionComplete() && this.awake) {
-
+//		while (getParent().isVisible() && !parent.isElectionComplete() && this.awake) {
+		while (!Thread.currentThread().interrupted()) {
 				// Some small delay...
 				// When they finish depends on how much they sleep
 
@@ -122,6 +127,22 @@ public class AgentThread implements Runnable{
 	
 	public synchronized void putSleep() {
 	    this.awake = false;
+	}
+	
+	public void start() {
+		publisher = executor.submit(this);
+	}
+
+	public void pause() {
+		publisher.cancel(true);
+	}
+
+	public void resume() {
+		start();
+	}
+
+	public void stop() {
+		executor.shutdownNow();
 	}
 	
 }
