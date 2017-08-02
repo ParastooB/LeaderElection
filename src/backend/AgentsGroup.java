@@ -22,7 +22,7 @@ public class AgentsGroup extends JPanel {
 	private static final long serialVersionUID = 1L;
 	
 // 	--------------------------	Simulation Parameters
-	public final int AGENT_COUNT = 5;
+	public final int AGENT_COUNT = 30;
 	public static final int FrameSizeX = 1024;
 	public static final int FrameSizeY = 1024;
 //	--------------------------------------------------------
@@ -155,6 +155,13 @@ public class AgentsGroup extends JPanel {
 	
 	public void electionIsComplete() {
 	    this.electionCompleted = true;
+	    System.out.println(this.toString());
+		for (Agent agent : this.agentsList) {
+			agent.setElectionComplete(this.electionCompleted);
+			if(agent.getAID() == agent.getLeaderAID()){
+				agent.setLeader(true);
+			}
+		}
 	}
 
 	public Agent leader(){
@@ -173,6 +180,16 @@ public class AgentsGroup extends JPanel {
 				found = agent;
 		}
 		return found;
+	}
+	
+	@Override
+	public String toString() {
+		String agentPrint = "";
+		for (Agent p : this.agentsList){
+			agentPrint = agentPrint + p.toString() + "\n";
+		}
+		return "AgentsGroup [AGENT_COUNT=" + AGENT_COUNT + ", agentsList=" + agentPrint + ", believers=" + believers
+				+ ", believerList=" + believerList + ", rounds=" + rounds +", electionCompleted=" + electionCompleted + "]";
 	}
 
 }

@@ -26,30 +26,25 @@ public class AgentsClient {
         frame.setSize(FrameSizeX, FrameSizeY);
         frame.setVisible(true);
         ThreadsGroup m =  new ThreadsGroup(agents);
-        Agent random = agents.leader();
         try {
         	Thread.sleep(1000);
         } catch (InterruptedException ex) {
-        	System.out.println("didn't sleep for 100 ms");
+        	System.out.println("didn't sleep for 1000 ms");
         }
         System.out.println("Starting . . . ");
-        m.startOne(random);
-/*        try {
-        	Thread.sleep(1000);
-        } catch (InterruptedException ex) {
-        	System.out.println("didn't sleep for 100 ms");
-        }*/
-/*        try {
-			this.wait();
-		} catch (InterruptedException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-        m.resumeOne(random);*/
-/*        try {
-        	m.waitForOne(random);
-        } catch (InterruptedException e) {
-        }*/
+        m.startElection();
+//        try {
+//        	Thread.sleep(0,2);
+//        } catch (InterruptedException ex) {
+//        	System.out.println("didn't sleep for 1 ms");
+//        }
+//        m.pauseElection();
+//        try {
+//        	Thread.sleep(8000);
+//        } catch (InterruptedException ex) {
+//        	System.out.println("didn't sleep for 1000 ms");
+//        }
+//        m.resumeElection();
         System.out.println("Done");
     }
 

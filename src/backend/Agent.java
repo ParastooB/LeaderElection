@@ -229,7 +229,11 @@ public class Agent {
 
 
 // -------------------------------------------------------------------
-
+	@Override
+	public String toString() {
+		return "Agent [AID=" + AID + ", leaderAID=" + leaderAID + ", conversions=" + conversions + ", metFollowers="
+				+ metFollowers + ", isLeader=" + isLeader + ", electionComplete=" + electionComplete + "]";
+	}
 // ------------------ Simulation Methods -----------------------------
 	
 	public Dimension getSize() {

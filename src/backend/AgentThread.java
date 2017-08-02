@@ -15,6 +15,7 @@ public class AgentThread implements Runnable{
 	private boolean awake;
 	private ExecutorService executor = Executors.newSingleThreadExecutor();
 	private Future<?> publisher;
+	private Color blueish = new Color (0, 156, 211);
 	
 	public AgentThread(AgentsGroup parent, Agent iAgent, ThreadsGroup threads) {
 	    this.parent = parent;
@@ -28,7 +29,7 @@ public class AgentThread implements Runnable{
 	public void run() {
 
 //		while (getParent().isVisible() && !parent.isElectionComplete() && this.awake) {
-		while (!Thread.currentThread().interrupted()) {
+		while (!Thread.currentThread().interrupted() && !parent.isElectionComplete()) {
 				// Some small delay...
 				// When they finish depends on how much they sleep
 
@@ -98,19 +99,19 @@ public class AgentThread implements Runnable{
 				// LOCK
 				parent.rounds();
 				if (iAgent.getLeaderAID() == parent.leader().getAID() && iAgent.getAID() != parent.leader().getAID())
-					iAgent.setColor(new Color (0, 156, 211));
+					iAgent.setColor(blueish);
 				
 				if (b.getLeaderAID() == parent.leader().getAID() && b.getAID() != parent.leader().getAID())
-					b.setColor(new Color (0, 156, 211));
+					b.setColor(blueish);
 				
 				// Some small delay...
 				// When they finish depends on how much they sleep
-				try {
+/*				try {
 				    Thread.sleep(1000);
 //				    this.notify();
 				    putSleep();
 				} catch (InterruptedException ex) {
-				}
+				}*/
 			}
 
 		}
