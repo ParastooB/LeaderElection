@@ -5,8 +5,8 @@ import java.awt.*;
 
 public class AgentsClient {
 
-	public static final int FrameSizeX = 1050;
-	public static final int FrameSizeY = 1000;
+	public static final int FrameSizeX = 800;
+	public static final int FrameSizeY = 800;
 
     public static void main(String[] args) {
 //        new AgentsClient();
