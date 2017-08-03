@@ -1,7 +1,7 @@
 # LeaderElection
 ## NSERC Project - Summer 2017<br>
 Number of agents, unaware of their status and other agents, will elect a leader. Leader is the agent with highest ID (red). By the end of simulation all the agents should be aware of the true leader's ID. <br>
-<img src="https://github.com/ParastooB/LeaderElection/blob/master/Simulation30AgentsSameNode.gif?raw=true" alt="Drawing" style="width:10"/>
+<img src="https://github.com/ParastooB/LeaderElection/blob/master/Simulation30AgentsSameNode.gif?raw=true" alt="Drawing" style="width:20x"/>
 ![alt text](https://github.com/ParastooB/LeaderElection/blob/master/Simulation30AgentsSameNode.gif?raw=true "Simulation") <br>
 This particular output is:
 ```
