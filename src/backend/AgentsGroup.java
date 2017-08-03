@@ -23,8 +23,8 @@ public class AgentsGroup extends JPanel {
 	
 // 	--------------------------	Simulation Parameters
 	public final int AGENT_COUNT = 30;
-	public static final int FrameSizeX = 1024;
-	public static final int FrameSizeY = 1024;
+	public static final int FrameSizeX = 800;
+	public static final int FrameSizeY = 800;
 //	--------------------------------------------------------
 	
 	private List<Agent> agentsList;
@@ -36,7 +36,8 @@ public class AgentsGroup extends JPanel {
 	private List<Agent> believerList = new ArrayList<Agent>(AGENT_COUNT);
 	
 	private int rounds = 0;
-	private int failed = 0;
+	private int useless = 0;
+	private int failedConnection = 0;
 	private int repeated = 0;
 	private boolean electionCompleted = false;
 	
@@ -89,9 +90,9 @@ public class AgentsGroup extends JPanel {
 	    super.paintComponent(g);
 	    Graphics2D g2d = (Graphics2D) g.create();
 	    g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-	    g2d.drawString("Rounds: "+String.valueOf(this.rounds), 100, 100);
-	    g2d.drawString("Failed: "+String.valueOf(this.failed+this.repeated), 100, 120);
-	    g2d.drawString("Believers: "+String.valueOf(this.getBelievers()), 100, 140);
+	    g2d.drawString("Rounds: "+String.valueOf(this.rounds), 50, 80);
+	    g2d.drawString("Failed: "+String.valueOf(this.useless+this.repeated+this.failedConnection), 50, 100);
+	    g2d.drawString("Believers: "+String.valueOf(this.getBelievers()), 50, 120);
 	    for (Agent agent : agentsList) {
 	    	agent.paint(g2d);
 	    	ArrayList<Integer> a1SuccessList = interactions.getSuccessfulInteractions(agent.getAID());
@@ -127,7 +128,9 @@ public class AgentsGroup extends JPanel {
 		if (errorCode == 1)
 			this.repeated ++;
 		else if (errorCode == 2)
-			this.failed ++;
+			this.useless ++;
+		else if (errorCode == 3)
+			this.failedConnection ++;
 	}
 	
 	public synchronized void belive(Agent i){

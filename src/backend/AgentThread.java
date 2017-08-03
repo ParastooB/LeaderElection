@@ -54,10 +54,13 @@ public class AgentThread implements Runnable{
 			else {
 			// not every time they connect they can infect
 				
-				Agent b = getParent().getAgents().get(UniqueRandomNumbers.random(parent.AGENT_COUNT-1));
+				Agent b = findConnectionPartner();
+				while (b == null){
+					b = findConnectionPartner();
+				}
 				System.out.println("Agent " + iAgent.getAID() + " attemping to connect to agent "+ b.getAID());
 			// DANGER : failed is global
-				if (!b.isEngaged() && !iAgent.isEngaged() && (b.getAID() != iAgent.getAID()) ){
+				if (!iAgent.isEngaged()){
 					b.engage();
 					iAgent.engage();
 				  	if (b.getLeaderAID() > iAgent.getLeaderAID()){
@@ -93,7 +96,7 @@ public class AgentThread implements Runnable{
 					iAgent.disengage();
 				}
 				else {
-					System.out.println("	Connection failed!");
+					System.out.println("	Agent is busy!");
 					parent.failed(2);
 				}
 				// LOCK
@@ -119,7 +122,21 @@ public class AgentThread implements Runnable{
 	}
 
 	public AgentsGroup getParent() {
+		parent.failed(2); 
 	    return parent;
+	}
+	
+	private Agent findConnectionPartner(){
+		// not every time they connect they can infect
+		
+		Agent b = getParent().getAgents().get(UniqueRandomNumbers.random(parent.AGENT_COUNT-1));
+		
+		if (b.isEngaged() || (b.getAID() == iAgent.getAID())){
+			return null;
+		}
+		else {
+			return b;
+		}
 	}
 	
 	public synchronized void wakeUp() {

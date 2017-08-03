@@ -33,18 +33,25 @@ public class AgentsClient {
         }
         System.out.println("Starting . . . ");
         m.startElection();
-//        try {
-//        	Thread.sleep(0,2);
-//        } catch (InterruptedException ex) {
-//        	System.out.println("didn't sleep for 1 ms");
-//        }
-//        m.pauseElection();
-//        try {
-//        	Thread.sleep(8000);
-//        } catch (InterruptedException ex) {
-//        	System.out.println("didn't sleep for 1000 ms");
-//        }
-//        m.resumeElection();
+        try {
+        	Thread.sleep(0,1);
+        } catch (InterruptedException ex) {
+        	System.out.println("didn't sleep for 1 ms");
+        }
+        while (!agents.isElectionComplete()){
+	        m.pauseElection();
+	        try {
+	        	Thread.sleep(1000);
+	        } catch (InterruptedException ex) {
+	        	System.out.println("didn't sleep for 1000 ms");
+	        }
+	        m.resumeElection();
+	        try {
+	        	Thread.sleep(0,1);
+	        } catch (InterruptedException ex) {
+	        	System.out.println("didn't sleep for 1 ms");
+	        }
+        }
         System.out.println("Done");
     }
 
