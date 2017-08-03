@@ -5,7 +5,7 @@ import java.awt.*;
 
 public class AgentsClient {
 
-	public static final int FrameSizeX = 800;
+	public static final int FrameSizeX = 850;
 	public static final int FrameSizeY = 800;
 
     public static void main(String[] args) {
@@ -27,7 +27,7 @@ public class AgentsClient {
         frame.setVisible(true);
         ThreadsGroup m =  new ThreadsGroup(agents);
         try {
-        	Thread.sleep(1000);
+        	Thread.sleep(6000);
         } catch (InterruptedException ex) {
         	System.out.println("didn't sleep for 1000 ms");
         }
