@@ -6,7 +6,7 @@ import java.awt.*;
 public class AgentsClient {
 
 	public static final int FrameSizeX = 850;
-	public static final int FrameSizeY = 800;
+	public static final int FrameSizeY = 730;
 
     public static void main(String[] args) {
 //        new AgentsClient();
@@ -18,7 +18,7 @@ public class AgentsClient {
         } catch (UnsupportedLookAndFeelException ex) {
         }
 
-        JFrame frame = new JFrame("Spot");
+        JFrame frame = new JFrame("Spot");        
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(new BorderLayout());
         AgentsGroup agents = new AgentsGroup();

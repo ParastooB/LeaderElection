@@ -16,6 +16,7 @@ public class AgentThread implements Runnable{
 	private ExecutorService executor = Executors.newSingleThreadExecutor();
 	private Future<?> publisher;
 	private Color blueish = new Color (0, 156, 211);
+	private Color greenish = new Color (89, 188, 0);
 	
 	public AgentThread(AgentsGroup parent, Agent iAgent, ThreadsGroup threads) {
 	    this.parent = parent;
@@ -67,19 +68,25 @@ public class AgentThread implements Runnable{
 						iAgent.converted();
 						iAgent.updateLeader(b.getLeaderAID());
 						// b converted iAgent so only successful for b
-						if (parent.leader().getAID() ==  iAgent.getLeaderAID())
+						if (parent.leader().getAID() ==  iAgent.getLeaderAID()){
 							parent.belive(iAgent);
-						parent.interactions.successful(b.getAID(), iAgent.getAID());
+							parent.interactions.converted(b.getAID(), iAgent.getAID());
+						}else{
+							parent.interactions.successful(b.getAID(), iAgent.getAID());
+						}
 						parent.interactions.failed(iAgent.getAID(), b.getAID());
 						System.out.println("	Agent " + iAgent.getAID() + " got infected by agent "+ b.getAID());
 				  	}
 					else if (b.getLeaderAID() < iAgent.getLeaderAID()){
 						b.converted();
 						b.updateLeader(iAgent.getAID());
-						if (parent.leader().getAID() ==  b.getLeaderAID())
+						if (parent.leader().getAID() ==  b.getLeaderAID()){
 							parent.belive(b);
-						//iAgent converted b
+							//iAgent converted b
+							parent.interactions.converted(iAgent.getAID(), b.getAID());
+						}else{
 						parent.interactions.successful(iAgent.getAID(), b.getAID());
+						}
 						parent.interactions.failed(b.getAID(), iAgent.getAID());
 						System.out.println("	Agent " + iAgent.getAID() + " infected agent "+ b.getAID());
 					}
@@ -102,10 +109,10 @@ public class AgentThread implements Runnable{
 				// LOCK
 				parent.rounds();
 				if (iAgent.getLeaderAID() == parent.leader().getAID() && iAgent.getAID() != parent.leader().getAID())
-					iAgent.setColor(blueish);
+					iAgent.setColor(greenish);
 				
 				if (b.getLeaderAID() == parent.leader().getAID() && b.getAID() != parent.leader().getAID())
-					b.setColor(blueish);
+					b.setColor(greenish);
 				
 				// Some small delay...
 				// When they finish depends on how much they sleep

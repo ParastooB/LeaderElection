@@ -30,6 +30,8 @@ import java.awt.Point;
  * modified by Parastoo <https://github.com/parastoob> 2017
  */
 public class Agent {
+	
+	private Color blueish = new Color (0, 156, 211);
 
     /**
      * Agent unique identifier
@@ -96,7 +98,7 @@ public class Agent {
         isLeader = false;
         electionComplete = false;
         
-	    this.color = Color.GREEN;
+	    this.color = blueish;
 	    size = new Dimension(25, 25);
     }
 

@@ -3,6 +3,7 @@ package backend;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
@@ -22,9 +23,9 @@ public class AgentsGroup extends JPanel {
 	private static final long serialVersionUID = 1L;
 	
 // 	--------------------------	Simulation Parameters
-	public final int AGENT_COUNT = 30;
-	public static final int FrameSizeX = 800;
-	public static final int FrameSizeY = 800;
+	public final int AGENT_COUNT = 40;
+	public static final int FrameSizeX = 700;
+	public static final int FrameSizeY = 700;
 //	--------------------------------------------------------
 	
 	private List<Agent> agentsList;
@@ -40,6 +41,9 @@ public class AgentsGroup extends JPanel {
 	private int failedConnection = 0;
 	private int repeated = 0;
 	private boolean electionCompleted = false;
+	
+	private Color blueish = new Color (0, 156, 211);
+	private Color greenish = new Color (89, 188, 0);
 	
 	Interactions interactions = new Interactions(AGENT_COUNT);
 
@@ -89,19 +93,31 @@ public class AgentsGroup extends JPanel {
 	protected synchronized void paintComponent(Graphics g) {
 	    super.paintComponent(g);
 	    Graphics2D g2d = (Graphics2D) g.create();
+	    g2d.setColor(Color.WHITE);
+	    g2d.fillRect(0, 0, 850, 730);
 	    g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-	    g2d.drawString("Rounds: "+String.valueOf(this.rounds), 50, 80);
-	    g2d.drawString("Failed: "+String.valueOf(this.useless+this.repeated+this.failedConnection), 50, 100);
-	    g2d.drawString("Believers: "+String.valueOf(this.getBelievers()), 50, 120);
+	    g2d.setColor(Color.BLACK);
+	    g2d.setFont(new Font("default", Font.BOLD, 16));
+	    g2d.drawString("Rounds: "+String.valueOf(this.rounds), 20, 50);
+	    g2d.drawString("Failed: "+String.valueOf(this.useless+this.repeated+this.failedConnection), 20, 70);
+	    g2d.drawString("Believers: "+String.valueOf(this.getBelievers()), 20, 90);
 	    for (Agent agent : agentsList) {
 	    	agent.paint(g2d);
 	    	ArrayList<Integer> a1SuccessList = interactions.getSuccessfulInteractions(agent.getAID());
-	    	// Painting the connections
 			for (int ID : a1SuccessList){
+				Stroke dashed = new BasicStroke(1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[]{5}, 0);
+		    	g2d.setStroke(dashed);
+		    	g2d.setPaint(blueish);
+		    	Agent iA = searchList(ID);
+		    	g2d.drawLine(agent.getLocation().x, agent.getLocation().y, iA.getLocation().x, iA.getLocation().y);
+			}
+	    	ArrayList<Integer> a1ConvList = interactions.getConversions(agent.getAID());
+	    	// Painting the connections
+			for (int ID3 : a1ConvList){
 		    	Stroke dashed = new BasicStroke(3, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[]{1}, 0);
 		    	g2d.setStroke(dashed);
 		    	g2d.setPaint(new Color(0,192,0));
-		    	Agent iA = searchList(ID);
+		    	Agent iA = searchList(ID3);
 		    	g2d.drawLine(agent.getLocation().x, agent.getLocation().y, iA.getLocation().x, iA.getLocation().y);
 			}
 			ArrayList<Integer> a1FailList = interactions.getFailedInteractions(agent.getAID());
